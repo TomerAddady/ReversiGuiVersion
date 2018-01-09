@@ -89,7 +89,6 @@ public class Game {
                     if (exits == 1) {
                         gameLogic.executeChoose(xPlayer, choice);
                         board.printBoard();
-                        System.out.println("ffffff");
                         tor[0]++;
                     }
                 }
@@ -105,7 +104,6 @@ public class Game {
                     if (exits == 1) {
                         gameLogic.executeChoose(oPlayer, choice);
                         board.printBoard();
-                        System.out.println("ffffff");
                         tor[0] = 0;
                     }
                 }
