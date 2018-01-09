@@ -1,8 +1,15 @@
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
+import javax.sound.sampled.Line;
 //import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 public class Board {
@@ -82,48 +89,84 @@ public class Board {
     }
 
     public void printBoard() {
+        int x = (int) primaryStage.getX() + 5;
+        int y = (int) primaryStage.getY() + 5;
 
-        System.out.println("fuck");
-
+        int width = (int) primaryStage.getWidth();
+        int he = (int) primaryStage.getHeight();
 
         primaryStage.setTitle("Game is on");
         int size_cell = 200/length;
         System.out.println(size_cell);
         Button button[][] = new Button[length][length];
-        StackPane stackPane = new StackPane();
-
+        HBox hBox = new HBox();
         for (int i = 0; i < length; i++) {
+            VBox vBox = new VBox();
             for (int j = 0; j < length; j++) {
-                button[i][j] = new Button("*");
-                //button[i][j].localToScene(i * size_cell , j * size_cell);
-                //button[i][j].relocate(i * size_cell , j * size_cell);
-                button[i][j].setTranslateX(j * size_cell);
-                button[i][j].setTranslateY(i * size_cell);
-                stackPane.getChildren().add(button[i][j]);
-                System.out.println("*");
-            }
-        }
+                Rectangle rectangle1 = new Rectangle(x+(he/length)*j,y,he/length,he/length);
+                rectangle1.setStroke(Color.BLACK);
+                rectangle1.setFill(Color.rgb(250,200,130));
 
-        HBox h = new HBox(stackPane);
-        Scene scene = new Scene(h , 400,200);
+                if (board[i][j] == 'X') {
+                    StackPane stackPane = new StackPane();
+                    Circle circle = new Circle(rectangle1.getX() , rectangle1.getY() , 5);
+                    circle.setFill(Color.BLACK);
+                    stackPane.getChildren().add(rectangle1);
+                    stackPane.getChildren().add(circle);
+                    vBox.getChildren().add(stackPane);
+                }
+                else if (board[i][j] == 'O') {
+                    StackPane stackPane = new StackPane();
+                    Circle circle = new Circle(rectangle1.getX() , rectangle1.getY() , 5);
+                    circle.setFill(Color.WHITE);
+                    stackPane.getChildren().add(rectangle1);
+                    stackPane.getChildren().add(circle);
+                    vBox.getChildren().add(stackPane);
+                } else { vBox.getChildren().add(rectangle1); }
+
+
+            }
+            y = (he / length) * i;
+            hBox.getChildren().add(vBox);
+        }
+        Label l = new Label("X's: " + count_X());
+        Label l2 = new Label("O's: " + count_O());
+
+        VBox new_vbox = new VBox(l , l2);
+        new_vbox.setSpacing(30);
+
+        HBox hBox1 = new HBox(hBox , new_vbox);
+        hBox1.setSpacing(20);
+
+        Scene scene = new Scene(hBox1 , width,he);
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        System.out.println("fuck");
-        /*
-        for (int i = 0; i < this.length; i++) {
-            System.out.print(" | " + (i + 1));
-        }
-        System.out.println(" |");
-        //loops to print the rest of the board
-        for(int j = 0; j < this.length; j++) {
-            System.out.println("----------------------------------");
-            System.out.print((j + 1) + "|");
-            for(int l = 0; l < this.length; l++) {
-                System.out.print(" " + board[j][l] + " |");
+    }
+
+    public int count_X() {
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length ; j++) {
+                if (board[i][j] == 'X') { count++; }
             }
-            System.out.print("\n");
         }
-        System.out.println("----------------------------------");*/
+
+        return count;
+    }
+
+    public int count_O() {
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length ; j++) {
+                if (board[i][j] == 'O') { count++; }
+            }
+        }
+
+        return count;
+    }
+
+    public Cell been_clicked(int x , int y) {
+        return new Cell(0,0);
     }
 }

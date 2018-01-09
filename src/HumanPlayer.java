@@ -1,4 +1,11 @@
 
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+
+import javafx.scene.input.MouseEvent;
+
+import java.awt.*;
+
 public class HumanPlayer extends Player {
 
     protected char xORo;
@@ -16,11 +23,21 @@ public class HumanPlayer extends Player {
      * Choose the move by lables.
      * @return the cell that chosen.
      */
-    public Cell chooseMove() {
+    public Cell chooseMove(Board board,Scene scene) {
         /*
         need to be change , by chosen of label.
          */
-        return new Cell(0,0);
+        final Cell[] c = {new Cell(0, 0)};
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                int x = MouseInfo.getPointerInfo().getLocation().x;
+                int y = MouseInfo.getPointerInfo().getLocation().y;
+                c[0] = board.been_clicked(x,y);
+            }
+        });
+
+        return c[0];
     }
 
     /**

@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -36,6 +37,7 @@ public class main extends Application{
         quick_start.setOnMouseClicked(new EventHandler<MouseEvent>() {
                                     @Override
                                     public void handle(MouseEvent event) {
+                                        System.out.println("fff");
                                         start_game(primaryStage);
                                     }
         });
@@ -48,9 +50,9 @@ public class main extends Application{
 
             edit_setting(primaryStage);
         });
-        HBox hbox = new HBox(quick_start , setting);
-        MouseEvent e;
-        Scene scene = new Scene(hbox, 800, 400);
+        VBox hbox = new VBox(quick_start , setting);
+        hbox.setSpacing(40);
+        Scene scene = new Scene(hbox, 400, 250);
         //this is how we recognize click on the screen !!!!!!!!!!!!!!!!!!!
         /*scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -62,25 +64,36 @@ public class main extends Application{
         //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
         primaryStage.setScene(scene);
+
         primaryStage.show();
+/*
+        System.out.println(primaryStage.getX());
+        System.out.println(primaryStage.getY());
+
+        System.out.println(primaryStage.getX() + primaryStage.getWidth());
+        System.out.println(primaryStage.getY() + primaryStage.getHeight());
+*/
     }
 
     public void edit_setting(Stage primaryStage) {
         primaryStage.setTitle("Edit setting");
 
         Label lbl = new Label("Starter: (black/white)");
-        lbl.setMinSize(149,30);
-        lbl.setMaxSize(150,30);
-        TextField textField = new TextField();
-        textField.setMinSize(149 , 30);
-        textField.setMaxSize(151 , 30);
-        Label lbl2 = new Label("Enter size: (4-20)");
-        lbl2.setMinSize(150,30);
-        TextField textField2 = new TextField();
 
-        Button button = new Button("P");
-        button.setMinSize(50,50);
-        button.setMaxSize(70,70);
+        TextField textField = new TextField();
+        HBox starter = new HBox(lbl , textField);
+        starter.setSpacing(30);
+
+        Label lbl2 = new Label("Enter size: (4-20)");
+        TextField textField2 = new TextField();
+        HBox size = new HBox(lbl2 , textField2);
+        size.setSpacing(30);
+
+        Button button = new Button("Sumbit changes");
+
+        VBox vBox = new VBox(starter , size , button);
+        vBox.setSpacing(30);
+
         button.setOnAction(action -> {
             System.out.println(textField.getText());
             try {
@@ -90,7 +103,7 @@ public class main extends Application{
                 } else { fileWriter.write("start: black\n"); }
                 if (textField2.getText() != "") {
                     fileWriter.write("size: " + textField2.getText());
-                } else { fileWriter.write("sie: 8");}
+                } else { fileWriter.write("sie: 8"); }
 
                 fileWriter.close();
 
@@ -98,22 +111,7 @@ public class main extends Application{
             start(primaryStage);
         });
 
-        HBox hbox1 = new HBox(lbl ,textField);
-        hbox1.setMinSize(300,30);
-
-        HBox hbox2 = new HBox(lbl2, textField2 , button);
-        hbox2.setTranslateY(50);
-        hbox2.setTranslateX(-300);
-        hbox2.setMinSize(300,30);
-        HBox hbox3 = new HBox( button);
-        hbox3.setTranslateY(100);
-        hbox3.setTranslateX(-600);
-        hbox3.setMinSize(50,50);
-        hbox3.setMaxSize(70,70);
-        HBox hbox = new HBox(hbox1 , hbox2 , hbox3);
-        hbox.setSpacing(0);
-
-        Scene scene = new Scene(hbox, 400, 200);
+        Scene scene = new Scene(vBox, 400, 200);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -140,8 +138,8 @@ public class main extends Application{
             char first;
             if (starter == "black") { first = 'X'; }
             else { first = 'O'; }
-
-         //   Game game = new Game(len , first , primaryStage);
+            System.out.println("start game");
+           Game game = new Game(len , first , primaryStage);
 
             file.close();
             FileReader file2 = new FileReader("defult_setting");
