@@ -16,6 +16,9 @@ public class Board {
     private int length;
     private char board[][];
     private Stage primaryStage;
+    private Scene scene;
+    private int x;
+    private int y;
 
     /**
      * Constructor.
@@ -24,6 +27,10 @@ public class Board {
     public Board(int len , Stage p) {
         primaryStage = p;
         this.length = len;
+        scene = primaryStage.getScene();
+        x = (int) primaryStage.getX() + 5;
+        y = (int) primaryStage.getY() + 5;
+
         board = new char[len][len];
         for (int i = 0; i < len; i++) {
             for(int j = 0; j < len; j++) {
@@ -52,6 +59,11 @@ public class Board {
      */
     public void insertValue(int r , int c , char val) {
         this.board[r][c] = val;
+        System.out.println(r + " , " + c + " , " + board[r][c]);
+    }
+
+    public Scene scene() {
+        return scene;
     }
 
     /**
@@ -89,16 +101,14 @@ public class Board {
     }
 
     public void printBoard() {
-        int x = (int) primaryStage.getX() + 5;
-        int y = (int) primaryStage.getY() + 5;
+        //int x = (int) primaryStage.getX() + 5;
+        //int y = (int) primaryStage.getY() + 5;
 
         int width = (int) primaryStage.getWidth();
-        int he = (int) primaryStage.getHeight();
+        int he = (int) primaryStage.getHeight() - 40;
 
         primaryStage.setTitle("Game is on");
-        int size_cell = 200/length;
-        System.out.println(size_cell);
-        Button button[][] = new Button[length][length];
+
         HBox hBox = new HBox();
         for (int i = 0; i < length; i++) {
             VBox vBox = new VBox();
@@ -136,12 +146,10 @@ public class Board {
         HBox hBox1 = new HBox(hBox , new_vbox);
         hBox1.setSpacing(20);
 
-        Scene scene = new Scene(hBox1 , width,he);
-        System.out.println("scehne " + scene.getX());
-        System.out.println("scehne " + scene.getY());
-        primaryStage.setScene(scene);
+        primaryStage.getScene().setRoot(hBox1);
+        //System.out.println("scehne " + scene.getX());
+        //System.out.println("scehne " + scene.getY());
         primaryStage.show();
-
     }
 
     public int count_X() {
@@ -184,9 +192,8 @@ public class Board {
         int cell_x = (int) (r_x / (scene.getHeight() / length));
         int cell_y = (int) (r_y / (scene.getHeight() / length));
 
-        System.out.println(cell_x);
-        System.out.println(cell_y);
+        System.out.println((cell_x + 1) + " , " + (cell_y));
 
-        return new Cell(cell_x ,cell_y);
+        return new Cell(cell_x  + 1,cell_y);
     }
 }

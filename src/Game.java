@@ -5,6 +5,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -66,35 +67,51 @@ public class Game {
             }
             ls = this.gameLogic.getOptions(this.xPlayer);
         }*/
-        int tor = 0;
+        final int[] tor = {0};
         //while (true) {
-            board.printBoard();
-            if (tor == 0) {
-                primaryStage.getScene().setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        int tor = 0;
-                        int x = MouseInfo.getPointerInfo().getLocation().x;
-                        int y = MouseInfo.getPointerInfo().getLocation().y;
-
-                        System.out.println(primaryStage.getX());
-                        System.out.println(primaryStage.getY());
-
-                        System.out.println("x is : " + x);
-                        System.out.println("y is : " + y);
-
-                        if (tor == 0) {
-                            xPlayer.chooseMove(board, x, y);
-                            tor = 1;
-                        }
-                        if (tor == 1) {
-                            oPlayer.chooseMove(board, x, y);
-                            tor = 0;
-                        }
+        board.printBoard();
+        primaryStage.getScene().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                //int tor = 0;
+                int x = MouseInfo.getPointerInfo().getLocation().x;
+                int y = MouseInfo.getPointerInfo().getLocation().y;
+                System.out.println("mouse click! ");
+                if (tor[0] == 0) {
+                    List<Cell> ls = new ArrayList<Cell>();
+                    ls.addAll(gameLogic.getOptions(xPlayer));
+                    Cell c = xPlayer.chooseMove(board, x, y);
+                    int exits = 0;
+                    Cell choice = new Cell(c.getRow() - 1 , c.getCol() - 1);
+                    for (int i = 0; i < ls.size(); i++) {
+                        if (choice.equals(ls.get(i)) == true) { exits = 1; break; }
                     }
-                });
+                    if (exits == 1) {
+                        gameLogic.executeChoose(xPlayer, choice);
+                        board.printBoard();
+                        System.out.println("ffffff");
+                        tor[0]++;
+                    }
                 }
-        }
+                else if (tor[0] == 1) {
+                    List<Cell> ls = new ArrayList<Cell>();
+                    ls.addAll(gameLogic.getOptions(oPlayer));
+                    Cell c = oPlayer.chooseMove(board, x, y);
+                    int exits = 0;
+                    Cell choice = new Cell(c.getRow() - 1 , c.getCol() - 1);
+                    for (int i = 0; i < ls.size(); i++) {
+                        if (choice.equals(ls.get(i)) == true) { exits = 1; break; }
+                    }
+                    if (exits == 1) {
+                        gameLogic.executeChoose(oPlayer, choice);
+                        board.printBoard();
+                        System.out.println("ffffff");
+                        tor[0] = 0;
+                    }
+                }
+            }
+        });
+    }
 
         /*char res = this.gameLogic.getWinner();
         if(res == 'T') {
@@ -103,7 +120,6 @@ public class Game {
 
         }*/
     //}
-
     public boolean isExsit (List<Cell> ls , Cell c) {
         Cell itr;
         int i = 0;

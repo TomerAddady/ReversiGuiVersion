@@ -1,3 +1,4 @@
+import javafx.scene.Scene;
 
 public class Cell {
 
@@ -35,5 +36,12 @@ public class Cell {
      */
     public void printCell() {
         System.out.print("(" + (row + 1) + "," + (col + 1) + ")");
+    }
+
+    public boolean equals(Cell cell) {
+        System.out.println(row + " , " + col);
+        System.out.println(cell.getRow() + " , " + cell.getCol());
+        if (row == cell.getRow() && col == cell.getCol()) { return true; }
+        return false;
     }
 }
