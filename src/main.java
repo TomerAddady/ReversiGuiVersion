@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -32,7 +33,6 @@ public class main extends Application{
         Button quick_start = new Button("Quick start");
         Button setting = new Button("Edit Setting");
 
-
         quick_start.setOnMouseClicked(new EventHandler<MouseEvent>() {
                                     @Override
                                     public void handle(MouseEvent event) {
@@ -41,14 +41,24 @@ public class main extends Application{
         });
 
                 setting.setOnAction(action -> {
-            System.out.println("quick start " + action.getSource());
-            System.out.println("quick start " + action.getTarget());
+            //System.out.println("quick start " + action.getSource());
+            //System.out.println("quick start " + action.getTarget());
+                    System.out.println("quick start " + MouseInfo.getPointerInfo().getLocation().x);
+                    System.out.println("quick start " + MouseInfo.getPointerInfo().getLocation().y);
+
             edit_setting(primaryStage);
         });
-
         HBox hbox = new HBox(quick_start , setting);
-
-        Scene scene = new Scene(hbox, 400, 200);
+        MouseEvent e;
+        Scene scene = new Scene(hbox, 800, 400);
+        //this is how we recognize click on the screen !!!!!!!!!!!!!!!!!!!
+        /*scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("quick start " + MouseInfo.getPointerInfo().getLocation().x);
+                System.out.println("quick start " + MouseInfo.getPointerInfo().getLocation().y);
+            }
+        });*/
         //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
         primaryStage.setScene(scene);
@@ -131,20 +141,23 @@ public class main extends Application{
             if (starter == "black") { first = 'X'; }
             else { first = 'O'; }
 
-            Game game = new Game(len , first , primaryStage);
+         //   Game game = new Game(len , first , primaryStage);
 
             file.close();
-            /*FileReader file2 = new FileReader("defult_setting");
+            FileReader file2 = new FileReader("defult_setting");
             FileWriter file3 = new FileWriter("new_setting");
 
             BufferedReader br2 = new BufferedReader(file2);
 
             while (br2 != null) {
-                file3.write(br2.readLine());
+                String s1 = br2.readLine();
+                if (s1 == null) { break; }
+                file3.write(s1);
+                file3.write("\n");
             }
 
             file2.close();
-            file3.close();*/
+            file3.close();
 
         } catch (Exception e) { }
 
