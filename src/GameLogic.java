@@ -26,12 +26,16 @@ public class GameLogic {
     /**
      * Function that print the board.
      */
-    public void printBoard() { }
+    public void printBoard() { b_.printBoard(); }
 
     /**
      * Function that gives us the winner.
      * @return x or o or t.
      */
     public char getWinner() { return this.b_.getWinner(); }
+
+    public void setBoard(Board b) {
+        this.b_ = b;
+    }
 
 }

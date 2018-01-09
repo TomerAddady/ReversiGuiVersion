@@ -1,5 +1,8 @@
+import javafx.scene.Scene;
 
 public class Player {
+
+    public Cell chooseMove(Board board,int x , int y) { return new Cell(0,0); }
 
     protected char xORo;
 

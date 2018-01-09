@@ -123,8 +123,6 @@ public class Board {
                     stackPane.getChildren().add(circle);
                     vBox.getChildren().add(stackPane);
                 } else { vBox.getChildren().add(rectangle1); }
-
-
             }
             y = (he / length) * i;
             hBox.getChildren().add(vBox);
@@ -139,6 +137,8 @@ public class Board {
         hBox1.setSpacing(20);
 
         Scene scene = new Scene(hBox1 , width,he);
+        System.out.println("scehne " + scene.getX());
+        System.out.println("scehne " + scene.getY());
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -167,6 +167,26 @@ public class Board {
     }
 
     public Cell been_clicked(int x , int y) {
-        return new Cell(0,0);
+
+        Scene scene = primaryStage.getScene();
+
+        double h = scene.getHeight();
+
+        double d= primaryStage.getX();
+        double b = scene.getX();
+        double f = primaryStage.getY();
+        double f5 = scene.getHeight();
+
+
+        int r_x = (int) (x - primaryStage.getX());
+        int r_y = (int) (y - primaryStage.getY());
+
+        int cell_x = (int) (r_x / (scene.getHeight() / length));
+        int cell_y = (int) (r_y / (scene.getHeight() / length));
+
+        System.out.println(cell_x);
+        System.out.println(cell_y);
+
+        return new Cell(cell_x ,cell_y);
     }
 }

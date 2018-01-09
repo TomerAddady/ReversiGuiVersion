@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,10 +9,13 @@ public class RegularLogic extends GameLogic {
         super(size);
     }
 
+    public void setBoard(Board board) {
+        this.b_ = board;
+    }
 
     public List<Cell> getOptions(Player p) {
         int i , j;
-        List<Cell> returnList = null;
+        List<Cell> returnList= new ArrayList<>();
 
         for (i = 0; i < this.b_.getSize(); i++) {
             for(j = 0; j < this.b_.getSize(); j++) {
@@ -166,12 +170,14 @@ public class RegularLogic extends GameLogic {
     public boolean isExsit (List<Cell> ls , Cell c) {
         Cell itr;
         int i = 0;
-
-        if (!ls.isEmpty()) {
-            while ((i+1) != ls.size()) {
-                itr = ls.get(i);
-                if (itr.getRow() == c.getRow() && itr.getCol() == c.getCol()) {
-                    return true;
+        if ((ls != null)) {
+            if (!ls.isEmpty()) {
+                while ((i + 1) != ls.size()) {
+                    itr = ls.get(i);
+                    if (itr.getRow() == c.getRow() && itr.getCol() == c.getCol()) {
+                        return true;
+                    }
+                    i++;
                 }
             }
         }
