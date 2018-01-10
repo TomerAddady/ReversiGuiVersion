@@ -26,7 +26,7 @@ public class GameLogic {
     /**
      * Function that print the board.
      */
-    public void printBoard() { b_.printBoard(); }
+    public void printBoard() { b_.printBoard(0); }
 
     /**
      * Function that gives us the winner.

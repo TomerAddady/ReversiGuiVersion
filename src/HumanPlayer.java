@@ -3,12 +3,14 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import java.awt.*;
 
 public class HumanPlayer extends Player {
 
     protected char xORo;
+    protected Color color;
 
     /**
      * Constractor.
@@ -18,7 +20,11 @@ public class HumanPlayer extends Player {
         super(x);
         this.xORo = x;
     }
-
+    public HumanPlayer(char x , Color color) {
+        super(x , color);
+        this.xORo = x;
+        this.color = color;
+    }
     /**
      * Choose the move by lables.
      * @return the cell that chosen.
@@ -30,6 +36,8 @@ public class HumanPlayer extends Player {
 
         return board.been_clicked(x,y);
     }
+
+    public Color getColor() { return this.color;}
 
     /**
      * Get the team of the player.

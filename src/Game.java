@@ -2,6 +2,7 @@
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -16,16 +17,16 @@ public class Game {
     GameLogic gameLogic;
     Board board;
 
-    public Game(int size , char first , Stage p) {
+    public Game(int size , Stage p , Color first , Color sec) {
         this.gameLogic = new RegularLogic(size);
-        this.oPlayer = new HumanPlayer('O');
-        this.xPlayer = new HumanPlayer('X');
+        this.oPlayer = new HumanPlayer('O' , sec);
+        this.xPlayer = new HumanPlayer('X' , first);
         primaryStage = p;
 
         Board b = new Board(size,primaryStage);
         this.gameLogic.setBoard(b);
-
-        b.printBoard();
+        b.set_Colors(xPlayer.getColor() , oPlayer.getColor());
+        b.printBoard(0);
         board = b;
         run();
     }
@@ -69,7 +70,7 @@ public class Game {
         }*/
         final int[] tor = {0};
         //while (true) {
-        board.printBoard();
+        board.printBoard(0);
         primaryStage.getScene().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -88,7 +89,7 @@ public class Game {
                     }
                     if (exits == 1) {
                         gameLogic.executeChoose(xPlayer, choice);
-                        board.printBoard();
+                        board.printBoard(tor[0]);
                         tor[0]++;
                     }
                 }
@@ -103,7 +104,7 @@ public class Game {
                     }
                     if (exits == 1) {
                         gameLogic.executeChoose(oPlayer, choice);
-                        board.printBoard();
+                        board.printBoard(tor[0]);
                         tor[0] = 0;
                     }
                 }

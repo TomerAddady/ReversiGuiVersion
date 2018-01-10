@@ -1,14 +1,18 @@
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -16,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 import static javafx.application.Application.launch;
 
@@ -76,13 +81,41 @@ public class main extends Application{
     }
 
     public void edit_setting(Stage primaryStage) {
-        primaryStage.setTitle("Edit setting");
 
-        Label lbl = new Label("Starter: (black/white)");
+        Label l = new Label("Pick colors for two users : ");
+
+        ObservableList<String> options =
+                FXCollections.observableArrayList(
+                        "Black", "Blue" , "Green" , "Pink" ,
+                        "White", "Clion" ,
+                        "Gray" , "Red" ,
+                        "Yello"
+                );
+
+        ComboBox comboBox = new ComboBox(options);
+        ComboBox comboBox1 = new ComboBox(options);
+
+        VBox vBox1 = new VBox(comboBox , comboBox1);
+        vBox1.setSpacing(10);
+        HBox h = new HBox(l , vBox1);
+
+
+        primaryStage.setTitle("Edit setting");
+        Label firstPlayer = new Label("Whos gonna start? plyer : ");
+        CheckBox checkBox = new CheckBox("1");
+        CheckBox checkBox2 = new CheckBox("2");
+        VBox b = new VBox(checkBox , checkBox2);
+        b.setSpacing(8);
+        HBox hBox_fist = new HBox(firstPlayer , b);
+        hBox_fist.setSpacing(20);
+        VBox starter = new VBox(h , hBox_fist);
+        starter.setSpacing(30);
+
+        /*Label lbl = new Label("Starter: (black/white)");
 
         TextField textField = new TextField();
         HBox starter = new HBox(lbl , textField);
-        starter.setSpacing(30);
+        starter.setSpacing(30);*/
 
         Label lbl2 = new Label("Enter size: (4-20)");
         TextField textField2 = new TextField();
@@ -95,23 +128,29 @@ public class main extends Application{
         vBox.setSpacing(30);
 
         button.setOnAction(action -> {
-            System.out.println(textField.getText());
             try {
+                System.out.println(comboBox.getSelectionModel().getSelectedItem().toString());
                 FileWriter fileWriter = new FileWriter("new_setting");
-                if (textField.getText() != "") {
-                    fileWriter.write("start: " + textField.getText() + "\n");
-                } else { fileWriter.write("start: black\n"); }
-                if (textField2.getText() != "") {
-                    fileWriter.write("size: " + textField2.getText());
-                } else { fileWriter.write("sie: 8"); }
-
+                if (checkBox.isSelected()) {
+                    fileWriter.write("start: first\n");
+                } else { fileWriter.write("start: second\n"); }
+                if (Integer.parseInt(textField2.getText()) >= 4 &&
+                        Integer.parseInt(textField2.getText()) <= 20) {
+                    fileWriter.write("size: " + textField2.getText() + "\n");
+                } else { fileWriter.write("size: 8\n"); }
+                if (!comboBox.getSelectionModel().isEmpty()) { fileWriter.write("" +
+                        "first: " + comboBox.getSelectionModel().getSelectedItem().toString() + "\n");
+                }
+                if (!comboBox1.getSelectionModel().isEmpty()) { fileWriter.write("" +
+                        "second: " + comboBox1.getSelectionModel().getSelectedItem().toString()+ "\n");
+                }
                 fileWriter.close();
 
             } catch (Exception e) { }
             start(primaryStage);
         });
 
-        Scene scene = new Scene(vBox, 400, 200);
+        Scene scene = new Scene(vBox, 400, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -133,13 +172,25 @@ public class main extends Application{
             index = s.length();
             String size = s.substring(6 , index);
             int len = Integer.parseInt(size);
-            System.out.println(starter);
-            System.out.println(size);
-            char first;
-            if (starter == "black") { first = 'X'; }
-            else { first = 'O'; }
+
+            s = br.readLine();
+            index = s.length();
+            String first_color = s.substring(7 , index);
+
+            s = br.readLine();
+            index = s.length();
+            String sec_color = s.substring(8 , index);
+            Color color_first;
+            Color color_sec;
+            if (starter == "first") {
+                color_first = Color.web(first_color);
+                color_sec = Color.web(sec_color);
+            } else {
+                color_sec = Color.web(first_color);
+                color_first = Color.web(sec_color);
+            }
             System.out.println("start game");
-           Game game = new Game(len , first , primaryStage);
+            Game game = new Game(len, primaryStage , color_first , color_sec);
 
             file.close();
             FileReader file2 = new FileReader("defult_setting");
@@ -158,6 +209,5 @@ public class main extends Application{
             file3.close();
 
         } catch (Exception e) { }
-
     }
 }

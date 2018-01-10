@@ -1,5 +1,4 @@
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -8,8 +7,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
-import javax.sound.sampled.Line;
 //import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 public class Board {
@@ -19,6 +16,8 @@ public class Board {
     private Scene scene;
     private int x;
     private int y;
+    private Color color_x;
+    private Color color_o;
 
     /**
      * Constructor.
@@ -66,6 +65,11 @@ public class Board {
         return scene;
     }
 
+    public void set_Colors(Color color1 , Color color2) {
+        color_x = color1;
+        color_o = color2;
+    }
+
     /**
      * Get the value in specific cell.
      * @param r - the row.
@@ -100,11 +104,18 @@ public class Board {
         }
     }
 
-    public void printBoard() {
+    public void printBoard(int tor) {
         //int x = (int) primaryStage.getX() + 5;
         //int y = (int) primaryStage.getY() + 5;
-
+        int height = (int) primaryStage.getHeight();
         int width = (int) primaryStage.getWidth();
+
+        //define the screen by the size of board.
+        if (length > 8) {
+            primaryStage.setHeight(29 * length + 50 );
+            primaryStage.setWidth(width/8 * length);
+        }
+
         int he = (int) primaryStage.getHeight() - 40;
 
         primaryStage.setTitle("Game is on");
@@ -115,12 +126,12 @@ public class Board {
             for (int j = 0; j < length; j++) {
                 Rectangle rectangle1 = new Rectangle(x+(he/length)*j,y,he/length,he/length);
                 rectangle1.setStroke(Color.BLACK);
-                rectangle1.setFill(Color.rgb(250,200,130));
+                rectangle1.setFill(Color.rgb(220,240,220));
 
                 if (board[i][j] == 'X') {
                     StackPane stackPane = new StackPane();
                     Circle circle = new Circle(rectangle1.getX() , rectangle1.getY() , 5);
-                    circle.setFill(Color.BLACK);
+                    circle.setFill(color_x);
                     stackPane.getChildren().add(rectangle1);
                     stackPane.getChildren().add(circle);
                     vBox.getChildren().add(stackPane);
@@ -128,7 +139,7 @@ public class Board {
                 else if (board[i][j] == 'O') {
                     StackPane stackPane = new StackPane();
                     Circle circle = new Circle(rectangle1.getX() , rectangle1.getY() , 5);
-                    circle.setFill(Color.WHITE);
+                    circle.setFill(color_o);
                     stackPane.getChildren().add(rectangle1);
                     stackPane.getChildren().add(circle);
                     vBox.getChildren().add(stackPane);
@@ -137,11 +148,17 @@ public class Board {
             y = (he / length) * i;
             hBox.getChildren().add(vBox);
         }
-        Label l = new Label("X's: " + count_X());
-        Label l2 = new Label("O's: " + count_O());
+        Label cur_tor;
+        if (tor == 0) {
+            cur_tor = new Label("Current player: 1");
+        } else {
+            cur_tor = new Label("Current player: 2");
+        }
+        Label l = new Label("1 first player score: " + count_X());
+        Label l2 = new Label("2 second player score : " + count_O());
 
-        VBox new_vbox = new VBox(l , l2);
-        new_vbox.setSpacing(30);
+        VBox new_vbox = new VBox(cur_tor , l , l2);
+        new_vbox.setSpacing(15);
 
         HBox hBox1 = new HBox(hBox , new_vbox);
         hBox1.setSpacing(20);
