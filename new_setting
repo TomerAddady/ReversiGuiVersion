@@ -1,2 +1,4 @@
-start: white
-size: 19
+start: first
+size: 8
+first: Black
+second: White

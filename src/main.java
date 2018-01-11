@@ -57,6 +57,7 @@ public class main extends Application{
         });
         VBox hbox = new VBox(quick_start , setting);
         hbox.setSpacing(40);
+       
         Scene scene = new Scene(hbox, 400, 250);
         //this is how we recognize click on the screen !!!!!!!!!!!!!!!!!!!
         /*scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -156,7 +157,10 @@ public class main extends Application{
     }
 
     public void start_game(Stage primaryStage) {
-
+        /*
+            only if "Edit setting" wad pressed we will read from new_setting o.w we will read from
+            defult_setting.
+         */
         FileReader file;
         try {
             file = new FileReader("new_setting");
@@ -175,22 +179,22 @@ public class main extends Application{
 
             s = br.readLine();
             index = s.length();
-            String first_color = s.substring(7 , index);
+            String first_color_name = s.substring(7 , index);
 
             s = br.readLine();
             index = s.length();
-            String sec_color = s.substring(8 , index);
+            String sec_color_name = s.substring(8 , index);
             Color color_first;
             Color color_sec;
-            if (starter == "first") {
-                color_first = Color.web(first_color);
-                color_sec = Color.web(sec_color);
+            if (starter.equals(new String("first"))) {
+                color_first = Color.web(first_color_name);
+                color_sec = Color.web(sec_color_name);
             } else {
-                color_sec = Color.web(first_color);
-                color_first = Color.web(sec_color);
+                color_sec = Color.web(first_color_name);
+                color_first = Color.web(sec_color_name);
             }
             System.out.println("start game");
-            Game game = new Game(len, primaryStage , color_first , color_sec);
+            Game game = new Game(len, primaryStage , color_first, color_sec, first_color_name, sec_color_name);
 
             file.close();
             FileReader file2 = new FileReader("defult_setting");

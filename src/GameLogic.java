@@ -6,6 +6,7 @@ public class GameLogic {
     protected Board b_;
 
     public GameLogic(int size) {
+
         this.b_ = new Board(size);
     }
 
@@ -14,7 +15,9 @@ public class GameLogic {
      * @param p - the player.
      * @return list of the cells.
      */
-    public List<Cell> getOptions(Player p) { return null; }
+    public List<Cell> getOptions(Player p) {
+        return null;
+    }
 
     /**
      * Commit the move.
@@ -26,7 +29,9 @@ public class GameLogic {
     /**
      * Function that print the board.
      */
-    public void printBoard() { b_.printBoard(0); }
+    public void printBoard() {
+     //   b_.printBoard(0);
+    }
 
     /**
      * Function that gives us the winner.

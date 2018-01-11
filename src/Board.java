@@ -104,7 +104,7 @@ public class Board {
         }
     }
 
-    public void printBoard(int tor) {
+    public void printBoard(int tor, String f_color_name, String sec_color_name ) {
         //int x = (int) primaryStage.getX() + 5;
         //int y = (int) primaryStage.getY() + 5;
         int height = (int) primaryStage.getHeight();
@@ -149,13 +149,15 @@ public class Board {
             hBox.getChildren().add(vBox);
         }
         Label cur_tor;
+
+
         if (tor == 0) {
-            cur_tor = new Label("Current player: 1");
+            cur_tor = new Label("Current player: " + f_color_name);
         } else {
-            cur_tor = new Label("Current player: 2");
+            cur_tor = new Label("Current player: " + sec_color_name);
         }
-        Label l = new Label("1 first player score: " + count_X());
-        Label l2 = new Label("2 second player score : " + count_O());
+        Label l = new Label(f_color_name + " first player score: " + count_X());
+        Label l2 = new Label(sec_color_name +" second player score : " + count_O());
 
         VBox new_vbox = new VBox(cur_tor , l , l2);
         new_vbox.setSpacing(15);

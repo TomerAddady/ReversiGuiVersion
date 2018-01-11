@@ -14,25 +14,29 @@ public class Game {
     private Player xPlayer;
     private Player oPlayer;
     private Stage primaryStage;
+    private String first_color_name;
+    private String sec_color_name;
     GameLogic gameLogic;
     Board board;
 
-    public Game(int size , Stage p , Color first , Color sec) {
+    public Game(int size , Stage p , Color first , Color sec, String first_color_name, String sec_color_name) {
         this.gameLogic = new RegularLogic(size);
         this.oPlayer = new HumanPlayer('O' , sec);
         this.xPlayer = new HumanPlayer('X' , first);
         primaryStage = p;
-
+        this.first_color_name = first_color_name;
+        this.sec_color_name = sec_color_name;
         Board b = new Board(size,primaryStage);
         this.gameLogic.setBoard(b);
         b.set_Colors(xPlayer.getColor() , oPlayer.getColor());
-        b.printBoard(0);
+        b.printBoard(0 , first.toString() , sec.toString());
         board = b;
         run();
     }
 
     public void run() {
-        /*boolean flag = true;
+        /*
+        boolean flag = true;
         List<Cell> ls;
         ls = this.gameLogic.getOptions(this.xPlayer);
         this.gameLogic.printBoard();
@@ -67,10 +71,12 @@ public class Game {
                 this.gameLogic.printBoard();
             }
             ls = this.gameLogic.getOptions(this.xPlayer);
-        }*/
+        }
+        */
         final int[] tor = {0};
         //while (true) {
-        board.printBoard(0);
+        board.printBoard(0, this.first_color_name, this.sec_color_name);
+
         primaryStage.getScene().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -89,7 +95,7 @@ public class Game {
                     }
                     if (exits == 1) {
                         gameLogic.executeChoose(xPlayer, choice);
-                        board.printBoard(tor[0]);
+                        board.printBoard(tor[0], first_color_name, sec_color_name);
                         tor[0]++;
                     }
                 }
@@ -104,7 +110,7 @@ public class Game {
                     }
                     if (exits == 1) {
                         gameLogic.executeChoose(oPlayer, choice);
-                        board.printBoard(tor[0]);
+                        board.printBoard(tor[0], first_color_name , sec_color_name);
                         tor[0] = 0;
                     }
                 }
@@ -112,13 +118,8 @@ public class Game {
         });
     }
 
-        /*char res = this.gameLogic.getWinner();
-        if(res == 'T') {
 
-        } else {
 
-        }*/
-    //}
     public boolean isExsit (List<Cell> ls , Cell c) {
         Cell itr;
         int i = 0;
