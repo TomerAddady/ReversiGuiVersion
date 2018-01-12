@@ -1,4 +1,3 @@
-
 import java.util.List;
 
 public class GameLogic {
@@ -30,14 +29,14 @@ public class GameLogic {
      * Function that print the board.
      */
     public void printBoard() {
-     //   b_.printBoard(0);
+        //   b_.printBoard(0);
     }
 
     /**
      * Function that gives us the winner.
      * @return x or o or t.
      */
-    public char getWinner() { return this.b_.getWinner(); }
+    public String getWinner() { return this.b_.getWinner(); }
 
     public void setBoard(Board b) {
         this.b_ = b;

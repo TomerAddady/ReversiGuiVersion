@@ -39,8 +39,7 @@ public class Cell {
     }
 
     public boolean equals(Cell cell) {
-        System.out.println(row + " , " + col);
-        System.out.println(cell.getRow() + " , " + cell.getCol());
+
         if (row == cell.getRow() && col == cell.getCol()) { return true; }
         return false;
     }
