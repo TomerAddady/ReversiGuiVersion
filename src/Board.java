@@ -15,9 +15,10 @@ public class Board {
     private int length;
     private char board[][];
     private Stage primaryStage;
-    private Scene scene;
+    private int size_cell;
     private int x;
     private int y;
+    private int scene_max;
     private Color color_x;
     private Color color_o;
     private String color_x_string;
@@ -30,7 +31,6 @@ public class Board {
     public Board(int len , Stage p) {
         primaryStage = p;
         this.length = len;
-        scene = primaryStage.getScene();
         x = (int) primaryStage.getX() + 5;
         y = (int) primaryStage.getY() + 5;
 
@@ -129,13 +129,16 @@ public class Board {
         color_o_string = sec_color_name;
 
         //define the screen by the size of board.
-        if (length >= 8) {
+        if (length >= 8 && primaryStage.isMaximized() == false) {
             primaryStage.setHeight(29 * length + 50 );
             primaryStage.setWidth(primaryStage.getHeight() + 150);
         }
-
+        scene_max = 0;
+        if (primaryStage.isMaximized() == true) {
+            scene_max = 1;
+        }
         int he = (int) primaryStage.getHeight() - 40;
-
+        size_cell = he/length;
         primaryStage.setTitle("Game is on");
         //all of objects will be in the hbox - the board himself.
         HBox hBox = new HBox();
@@ -183,7 +186,6 @@ public class Board {
                                     ls.get(k).getCol() == j) {
                                 if (board[i][j] == ' ') {
                                     board[i][j] = 's';
-                                    System.out.println(i + " circle , " + j + " and k is : " + k);
                                     Circle c = new Circle(rectangle1.getX(), rectangle1.getY(), 10);
                                     c.setStroke(Color.rgb(200, 200, 200));
                                     c.setFill(Color.rgb(235, 235, 240));
@@ -268,14 +270,15 @@ public class Board {
 
         Scene scene = primaryStage.getScene();
 
-        int i = 40;
+        int i = 0;
         if (length >= 8) {  i = 0; }
         int r_x = (int) (x - primaryStage.getX());
         int r_y = (int) (y - primaryStage.getY() + i);
 
-        int cell_x = (int) (r_x / (scene.getHeight() / length));
-        int cell_y = (int) (r_y / (scene.getHeight() / length));
-
-        return new Cell(cell_x +1,cell_y);
+        int cell_x = (int) (r_x / size_cell);
+        int cell_y = (int) (r_y / size_cell);
+        int r = scene_max;
+        System.out.println((cell_x +1)+ " , " + (cell_y + r));
+        return new Cell(cell_x +1,cell_y + r);
     }
 }

@@ -56,7 +56,6 @@ public class Game {
             @Override
             public void handle(MouseEvent event) {
                 //int tor = 0;
-
                 List<Cell> ls_o = new ArrayList<Cell>();
                 ls_o.addAll(gameLogic.getOptions(oPlayer));
 
